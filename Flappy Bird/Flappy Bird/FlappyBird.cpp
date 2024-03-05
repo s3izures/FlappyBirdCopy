@@ -55,10 +55,10 @@ void FlappyBird::EvalFrame()
 		}
 	}
 
-	if (IsKeyPressed(KEY_A))
+	if (IsKeyDown(KEY_A))
 	{
-		float time = GetFrameTime();
-		while (GetFrameTime() == time + 10)
+		float time = GetTime();
+		if (GetTime() < time + 10)
 		{
 			int targetTop = pipes[passedPipe].yBot - bird.radius * 2;
 			int targetBot = pipes[passedPipe].heightTop + bird.radius * 2;

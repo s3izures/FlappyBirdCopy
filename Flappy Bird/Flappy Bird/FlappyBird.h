@@ -41,7 +41,7 @@ private:
 		}
 		void Move()
 		{
-			if (IsKeyPressed(KEY_SPACE))
+			if (IsKeyDown(KEY_SPACE))
 				pos.y -= 5;
 			else
 				pos.y += 3;
