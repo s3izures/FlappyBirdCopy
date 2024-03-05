@@ -22,6 +22,7 @@ void FlappyBird::Main()
 void FlappyBird::Start()
 {
 	InitPipes();
+	InitBird();
 
 	//Object Pooling : active or inactive
 }
@@ -34,7 +35,11 @@ void FlappyBird::Update()
 
 void FlappyBird::EvalFrame()
 {
-
+	for (Pipe& p : pipes)
+	{
+		p.Move();
+	}
+	bird.Move();
 }
 
 void FlappyBird::DrawFrame()
@@ -43,6 +48,7 @@ void FlappyBird::DrawFrame()
 	{
 		p.Draw();
 	}
+	bird.Draw();
 }
 
 void FlappyBird::InitPipes()
@@ -53,4 +59,9 @@ void FlappyBird::InitPipes()
 		Pipe p = Pipe(x);
 		pipes.push_back(p);
 	}
+}
+
+void FlappyBird::InitBird()
+{
+	bird.pos = { 100,(float)GetRandomValue(100, screenY - 100) };
 }
