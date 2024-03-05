@@ -21,6 +21,9 @@ private:
 	static const int screenX = 800;
 	static const int screenY = 450;
 	static const int gap = 200;
+	
+	int score = 0;
+	int highScore = 0;
 
 #pragma region Structs
 	typedef struct Bird {
@@ -52,6 +55,7 @@ private:
 		float yBot;
 		Color col = LIME;
 		Rectangle topRect, botRect;
+		bool passed = false;
 		bool active = true;
 
 		//FUNCTIONS
@@ -81,16 +85,22 @@ private:
 				DrawRectangleRec(botRect, col);
 			}
 		}
-		void Move()
+		void Move(Bird bird)
 		{
-			topRect.x -= 1;
-			botRect.x -= 1;
+			x -= 1;
+			topRect.x = x;
+			botRect.x = x;
+			if (x + width < bird.pos.x - bird.radius && !passed)
+			{
+				col = GREEN;
+				passed = true;
+			}
 		}
 
 	}Pipe;
 #pragma endregion
 
+	vector<Pipe>pipes;
 	Bird bird;
-	vector<Pipe> pipes;
 };
 
