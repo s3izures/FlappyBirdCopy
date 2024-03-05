@@ -2,6 +2,7 @@
 #include "raylib.h"
 #include <iostream>
 #include <vector>
+#include <algorithm>
 using namespace std;
 
 class FlappyBird
@@ -21,6 +22,7 @@ private:
 	static const int screenX = 800;
 	static const int screenY = 450;
 	static const int gap = 200;
+	bool gameOver = false;
 	
 	int score = 0;
 	int highScore = 0;
@@ -39,7 +41,7 @@ private:
 		}
 		void Move()
 		{
-			if (IsKeyDown(KEY_SPACE))
+			if (IsKeyPressed(KEY_SPACE))
 				pos.y -= 5;
 			else
 				pos.y += 3;
@@ -74,9 +76,13 @@ private:
 		{
 			//Check boundaries
 			if (x + width > 0 && x < screenX)
+			{
 				active = true;
+			}
 			else
+			{
 				active = false;
+			}
 
 			//Draw within bounds
 			if (active)
@@ -85,16 +91,29 @@ private:
 				DrawRectangleRec(botRect, col);
 			}
 		}
-		void Move(Bird bird)
+		void Move()
 		{
 			x -= 1;
 			topRect.x = x;
 			botRect.x = x;
+		}
+		int Pass(Bird bird, int& score)
+		{
 			if (x + width < bird.pos.x - bird.radius && !passed)
 			{
 				col = GREEN;
 				passed = true;
+				score++;
 			}
+			return passed;
+		}
+		bool BirdCollision(Bird bird)
+		{
+			return CheckCollisionCircleRec(bird.pos, bird.radius, topRect) || CheckCollisionCircleRec(bird.pos, bird.radius, botRect);
+		}
+		bool OOB()
+		{
+			return x + width < 0;
 		}
 
 	}Pipe;
